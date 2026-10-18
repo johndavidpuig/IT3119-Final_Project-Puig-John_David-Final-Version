@@ -6,6 +6,7 @@
   background: #f4f7fb;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+
   --primary: #3157d5;
   --primary-dark: #2444b6;
   --ink: #172033;
@@ -22,15 +23,14 @@
 }
 
 html {
-  min-width: 320px;
   width: 100%;
-  overflow-x: clip;
+  min-width: 320px;
 }
 
 body {
   margin: 0;
-  min-width: 320px;
   width: 100%;
+  min-width: 320px;
   background:
     radial-gradient(ellipse at top left, rgba(49, 87, 213, .08), transparent 38rem),
     #f4f7fb;
@@ -39,7 +39,8 @@ body {
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
 }
 
@@ -55,6 +56,8 @@ button:disabled {
 [hidden] {
   display: none !important;
 }
+
+/* Main application */
 
 .app-shell {
   width: 100%;
@@ -110,7 +113,7 @@ p {
   letter-spacing: .13em;
 }
 
-/* Login */
+/* Login card */
 
 .login-card {
   width: min(100%, 470px);
@@ -161,20 +164,26 @@ p {
 .form-grid {
   display: grid;
   gap: 16px;
+  width: 100%;
+  min-width: 0;
 }
 
 label {
   display: grid;
   gap: 7px;
+  width: 100%;
+  min-width: 0;
   color: #39445a;
   font-size: .84rem;
   font-weight: 700;
 }
 
 input,
-select {
+select,
+textarea {
   width: 100%;
   min-width: 0;
+  max-width: 100%;
   min-height: 43px;
   padding: 10px 12px;
   color: var(--ink);
@@ -185,14 +194,55 @@ select {
   transition: border-color .15s, box-shadow .15s;
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: #9aa3b4;
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
   border-color: #6d87ed;
   box-shadow: 0 0 0 3px rgba(49, 87, 213, .12);
+}
+
+.form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.full-span {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding-top: 3px;
+  min-width: 0;
+}
+
+.status-message {
+  min-height: 0;
+  margin: 12px 0 0;
+  color: var(--success);
+  font-size: .83rem;
+  overflow-wrap: anywhere;
+}
+
+.status-message:empty {
+  display: none;
+}
+
+.status-message.error,
+.error-text {
+  color: var(--danger) !important;
+}
+
+.global-message {
+  margin: -12px 0 18px;
 }
 
 /* Buttons */
@@ -254,6 +304,7 @@ button:active {
   justify-content: space-between;
   gap: 20px;
   padding: 4px 0 24px;
+  min-width: 0;
 }
 
 .brand {
@@ -277,6 +328,7 @@ button:active {
   gap: 9px;
   flex-wrap: wrap;
   justify-content: flex-end;
+  min-width: 0;
 }
 
 .signed-in {
@@ -287,7 +339,7 @@ button:active {
   margin-right: 4px;
 }
 
-/* Navigation tabs */
+/* Navigation */
 
 .tabs {
   display: flex;
@@ -357,7 +409,7 @@ button:active {
   font-size: .72rem;
 }
 
-/* Main content layout */
+/* Form and table layout */
 
 .content-grid {
   display: grid;
@@ -374,8 +426,8 @@ button:active {
 }
 
 .panel {
-  min-width: 0;
   width: 100%;
+  min-width: 0;
   padding: 22px;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -390,6 +442,7 @@ button:active {
   justify-content: space-between;
   gap: 15px;
   margin-bottom: 20px;
+  min-width: 0;
 }
 
 .panel-heading {
@@ -397,50 +450,13 @@ button:active {
   border-bottom: 1px solid #edf0f6;
 }
 
-.form-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.full-span {
-  grid-column: 1 / -1;
-}
-
-.form-actions {
-  display: flex;
-  gap: 9px;
-  flex-wrap: wrap;
-  padding-top: 3px;
-}
-
-.status-message {
-  min-height: 0;
-  margin: 12px 0 0;
-  color: var(--success);
-  font-size: .83rem;
-  overflow-wrap: anywhere;
-}
-
-.status-message:empty {
-  display: none;
-}
-
-.status-message.error,
-.error-text {
-  color: var(--danger) !important;
-}
-
-.global-message {
-  margin: -12px 0 18px;
-}
-
-/* Data tables */
+/* Tables */
 
 .table-panel {
   display: block;
-  min-width: 0;
   width: 100%;
   max-width: 100%;
+  min-width: 0;
   overflow: hidden;
 }
 
@@ -550,7 +566,7 @@ button:active {
   font-size: .76rem;
 }
 
-/* Tablet layout */
+/* Tablet */
 
 @media (max-width: 1120px) {
   .content-grid {
@@ -566,17 +582,12 @@ button:active {
   }
 }
 
-/* Mobile layout */
+/* Mobile */
 
 @media (max-width: 700px) {
-  html,
-  body {
-    width: 100%;
-    min-width: 320px;
-  }
-
   .app-shell {
     width: 100%;
+    min-width: 0;
     padding: 16px 12px 26px;
   }
 
@@ -604,34 +615,77 @@ button:active {
     padding: 10px 12px;
   }
 
+  /* Stack panels at full available width */
   .content-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     gap: 16px;
     width: 100%;
     min-width: 0;
   }
 
-  .panel {
+  .content-grid > .panel,
+  .content-grid > .form-panel,
+  .content-grid > .table-panel {
+    display: block;
     width: 100%;
+    max-width: 100%;
     min-width: 0;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+  }
+
+  .form-panel {
+    order: 0;
+  }
+
+  .table-panel {
+    order: 1;
+  }
+
+  .panel {
     padding: 16px;
     border-radius: 13px;
   }
 
+  /* Make form fields fit the full panel width */
   .form-grid {
+    display: grid;
     grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .stack-form,
+  .stack-form label,
+  .form-grid label,
+  .form-grid input,
+  .form-grid select,
+  .form-grid textarea,
+  .form-grid .full-span {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .full-span {
     grid-column: auto;
   }
 
-  .table-panel {
-    display: block;
+  .form-actions {
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
-    min-width: 0;
-    max-width: 100%;
+  }
+
+  .tabs {
+    width: 100%;
+  }
+
+  /* Keep table usable by horizontal swiping */
+  .table-panel {
     padding: 12px;
     overflow: hidden;
   }
@@ -642,10 +696,6 @@ button:active {
   }
 
   .search-input {
-    width: 100%;
-  }
-
-  .tabs {
     width: 100%;
   }
 
