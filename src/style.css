@@ -24,13 +24,15 @@
 
 html {
   width: 100%;
-  min-width: 320px;
+  min-width: 0;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   width: 100%;
-  min-width: 320px;
+  min-width: 0;
+  overflow-x: clip;
   background:
     radial-gradient(ellipse at top left, rgba(49, 87, 213, .08), transparent 38rem),
     #f4f7fb;
@@ -111,6 +113,7 @@ p {
   font-size: .7rem;
   font-weight: 800;
   letter-spacing: .13em;
+  overflow-wrap: anywhere;
 }
 
 /* Login card */
@@ -181,6 +184,7 @@ label {
 input,
 select,
 textarea {
+  display: block;
   width: 100%;
   min-width: 0;
   max-width: 100%;
@@ -243,6 +247,7 @@ textarea:focus {
 
 .global-message {
   margin: -12px 0 18px;
+  overflow-wrap: anywhere;
 }
 
 /* Buttons */
@@ -316,6 +321,7 @@ button:active {
 
 .brand h1 {
   font-size: 1.2rem;
+  overflow-wrap: anywhere;
 }
 
 .brand p {
@@ -383,6 +389,10 @@ button:active {
   min-width: 0;
 }
 
+.section-heading > div:first-child {
+  min-width: 0;
+}
+
 .section-heading .muted {
   font-size: .9rem;
 }
@@ -445,6 +455,11 @@ button:active {
   min-width: 0;
 }
 
+.panel-heading > div,
+.table-heading > div {
+  min-width: 0;
+}
+
 .panel-heading {
   padding-bottom: 16px;
   border-bottom: 1px solid #edf0f6;
@@ -466,12 +481,14 @@ button:active {
 
 .search-input {
   width: min(100%, 250px);
+  min-width: 0;
 }
 
 .table-message {
   margin: 0 0 12px;
   color: var(--muted);
   font-size: .84rem;
+  overflow-wrap: anywhere;
 }
 
 .table-wrapper {
@@ -584,16 +601,51 @@ button:active {
 
 /* Mobile */
 
-@media (max-width: 700px) {
-  .app-shell {
+@media screen and (max-width: 700px) {
+  html,
+  body {
     width: 100%;
     min-width: 0;
+    max-width: 100%;
+  }
+
+  .app-shell {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 auto;
     padding: 16px 12px 26px;
+    box-sizing: border-box;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 470px;
+    padding: 24px 18px;
+  }
+
+  .login-card h1 {
+    font-size: clamp(1.4rem, 6vw, 1.85rem);
+    overflow-wrap: anywhere;
   }
 
   .topbar {
     align-items: flex-start;
     flex-direction: column;
+    gap: 14px;
+  }
+
+  .brand {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .brand > div:last-child {
+    min-width: 0;
+  }
+
+  .brand h1 {
+    overflow-wrap: anywhere;
   }
 
   .topbar-actions {
@@ -608,40 +660,51 @@ button:active {
 
   .section-heading {
     align-items: flex-start;
+    gap: 10px;
+  }
+
+  .section-heading > div:first-child {
+    flex: 1 1 auto;
   }
 
   .heading-stat {
-    min-width: 76px;
-    padding: 10px 12px;
+    flex: 0 0 auto;
+    min-width: 70px;
+    padding: 9px 10px;
   }
 
-  /* Stack panels at full available width */
+  /* Stack the form and table panels */
+
   .content-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
     gap: 16px;
-    width: 100%;
-    min-width: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
   }
 
+  .content-grid > *,
   .content-grid > .panel,
   .content-grid > .form-panel,
   .content-grid > .table-panel {
     display: block;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    flex: 0 0 auto;
-    box-sizing: border-box;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
   }
 
   .form-panel {
     order: 0;
+    overflow: visible;
   }
 
   .table-panel {
     order: 1;
+    overflow: hidden;
   }
 
   .panel {
@@ -649,54 +712,114 @@ button:active {
     border-radius: 13px;
   }
 
-  /* Make form fields fit the full panel width */
-  .form-grid {
-    display: grid;
+  .panel-heading {
+    width: 100%;
+    min-width: 0;
+    gap: 10px;
+  }
+
+  /* Force each form field onto its own row */
+
+  .form-panel form.form-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-flow: row;
+    align-items: start;
+    gap: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0;
+    box-sizing: border-box !important;
+  }
+
+  .form-panel form.form-grid > label,
+  .form-panel form.form-grid > .form-actions {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .form-panel form.form-grid > label {
+    display: grid !important;
     grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
-    width: 100%;
-    min-width: 0;
+    gap: 7px;
+    overflow-wrap: anywhere;
   }
 
-  .stack-form,
-  .stack-form label,
-  .form-grid label,
-  .form-grid input,
-  .form-grid select,
-  .form-grid textarea,
-  .form-grid .full-span {
-    width: 100%;
-    min-width: 0;
+  .form-panel form.form-grid input,
+  .form-panel form.form-grid select,
+  .form-panel form.form-grid textarea {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0;
+    box-sizing: border-box !important;
+  }
+
+  .form-panel form.form-grid .full-span {
+    grid-column: 1 / -1 !important;
+  }
+
+  .form-panel form.form-grid .form-actions {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: wrap !important;
+    align-items: center;
+    gap: 8px;
+    padding-top: 3px;
+  }
+
+  .form-panel form.form-grid .form-actions button {
+    flex: 0 1 auto;
     max-width: 100%;
+    box-sizing: border-box;
   }
 
-  .full-span {
-    grid-column: auto;
+  .form-panel .status-message {
+    overflow-wrap: anywhere;
   }
 
-  .form-actions {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-  }
+  /* Navigation */
 
   .tabs {
+    display: flex;
     width: 100%;
+    max-width: 100%;
+    margin-bottom: 22px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* Keep table usable by horizontal swiping */
+  /* Search field and table */
+
   .table-panel {
     padding: 12px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     overflow: hidden;
+    box-sizing: border-box;
   }
 
   .table-heading {
+    display: flex;
     align-items: stretch;
     flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
   }
 
   .search-input {
+    display: block;
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
   .table-wrapper {
@@ -705,7 +828,9 @@ button:active {
     max-width: 100%;
     min-width: 0;
     overflow-x: auto;
+    overflow-y: visible;
     -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
   }
 
   .table-wrapper table {
@@ -726,5 +851,39 @@ button:active {
 
   .footer-note {
     overflow-wrap: anywhere;
+  }
+}
+
+/* Extra-small phones */
+
+@media screen and (max-width: 380px) {
+  .app-shell {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .panel {
+    padding: 12px;
+  }
+
+  .table-panel {
+    padding: 8px;
+  }
+
+  .section-heading {
+    gap: 8px;
+  }
+
+  .heading-stat {
+    min-width: 62px;
+    padding: 8px;
+  }
+
+  .form-panel form.form-grid {
+    gap: 12px !important;
+  }
+
+  .form-panel form.form-grid .form-actions button {
+    flex: 1 1 auto;
   }
 }
