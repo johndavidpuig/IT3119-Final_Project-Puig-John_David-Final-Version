@@ -886,4 +886,35 @@ button:active {
   .form-panel form.form-grid .form-actions button {
     flex: 1 1 auto;
   }
+  @media screen and (max-width: 700px) {
+  #studentForm,
+  #courseForm,
+  #departmentForm {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+  }
+
+  #studentForm > label,
+  #courseForm > label,
+  #departmentForm > label {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #studentForm input,
+  #studentForm select,
+  #courseForm input,
+  #courseForm select,
+  #departmentForm input,
+  #departmentForm select {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
 }
